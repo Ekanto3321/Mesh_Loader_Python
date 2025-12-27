@@ -12,7 +12,7 @@ width = 800
 height = 800
 framerate = 60
 size = 1
-color = (200,200,50)
+color = (200,200,50,0.5)
 bg = (0,0,0)
 dist = 1.75
 deg_inc = 0.000005
@@ -24,6 +24,7 @@ clock = pygame.time.Clock()
 def main():
     deg = 0.1
     deg_2 = 0
+    y_offset = 0
     running = True
     
     paused = False
@@ -62,7 +63,10 @@ def main():
             deg_2 -= 0.05
         if keys[pygame.K_DOWN]:
             deg_2 += 0.05
-
+        if keys[pygame.K_s]:
+            y_offset -= 0.05
+        if keys[pygame.K_w]:
+            y_offset += 0.05
         if keys[pygame.K_SPACE]:
             if paused == False: 
                 paused = True
@@ -78,10 +82,10 @@ def main():
             posx,posy,posz = vertices[first]
             posx_2, posy_2, posz_2 = vertices[second]
 
-            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg,deg_2)
+            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg,deg_2,y_offset)
             ren_x, ren_y, ren_z = render(fin_x, fin_y, fin_z)
             
-            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg,deg_2)
+            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg,deg_2, y_offset)
             ren_x2, ren_y2, ren_z2 = render(fin_x2, fin_y2, fin_z2)
 
             pygame.draw.line(screen, color, (ren_x, ren_y), (ren_x2, ren_y2), 1)
@@ -115,7 +119,7 @@ def main():
 
 
 
-def dostuff(x,y,z, deg, deg_2):
+def dostuff(x,y,z, deg, deg_2, y_offset):
 
     #along y axis
     fin_x = x*math.cos(deg) - z*math.sin(deg)
@@ -128,8 +132,14 @@ def dostuff(x,y,z, deg, deg_2):
     fin2_x = fin_x 
     fin2_z = fin_y * math.sin(deg_2) + fin_z * math.cos(deg_2)
     fin2_y = fin_y * math.cos(deg_2) - fin_z * math.sin(deg_2)
+        
+    
+    fin3_x = fin2_x 
+    fin3_y = fin2_y + y_offset
+    fin3_z = fin2_z
 
-    return (fin2_x, fin2_y, fin2_z)
+
+    return (fin3_x, fin3_y, fin3_z)
 
 
 
