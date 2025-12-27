@@ -121,18 +121,22 @@ def main():
 
 def dostuff(x,y,z, deg, deg_2, y_offset):
 
-    #along y axis
-    fin_x = x*math.cos(deg) - z*math.sin(deg)
-    fin_z = dist + x*math.sin(deg) + z*math.cos(deg) 
-    fin_y = y
-
-
-    
+    # #along y axis
+    # fin_x = x*math.cos(deg) - z*math.sin(deg)
+    # fin_z = dist + x*math.sin(deg) + z*math.cos(deg) 
+    # fin_y = y
+ 
     #along x axis 
-    fin2_x = fin_x 
-    fin2_z = fin_y * math.sin(deg_2) + fin_z * math.cos(deg_2)
-    fin2_y = fin_y * math.cos(deg_2) - fin_z * math.sin(deg_2)
-        
+    fin_x = x 
+    fin_z = y * math.sin(deg_2) + z * math.cos(deg_2)
+    fin_y = y * math.cos(deg_2) - z * math.sin(deg_2)
+    
+     #along y axis
+    fin2_x = fin_x*math.cos(deg) - fin_z*math.sin(deg)
+    fin2_z = dist + fin_x*math.sin(deg) + fin_z*math.cos(deg) 
+    fin2_y = fin_y
+ 
+
     
     fin3_x = fin2_x 
     fin3_y = fin2_y + y_offset
