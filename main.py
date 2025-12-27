@@ -23,8 +23,10 @@ clock = pygame.time.Clock()
 
 def main():
     deg = 0.1
+    deg_2 = 0
     running = True
     
+    paused = False
     vert_to_render = vertices
     faces_to_render = faces
 
@@ -49,21 +51,37 @@ def main():
         #
         #     #pygame.draw.rect(screen, color,(ren_x-size//2,ren_y-size//2, size, size))
         #     #pygame.draw.circle(screen, color, (ren_x, ren_y), size) 
-        #
         
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            deg -= 0.05
+        if keys[pygame.K_RIGHT]:
+            deg += 0.05
+        if keys[pygame.K_UP]:
+            deg_2 -= 0.05
+        if keys[pygame.K_DOWN]:
+            deg_2 += 0.05
+
+        if keys[pygame.K_SPACE]:
+            if paused == False: 
+                paused = True
+            else: 
+                paused = False 
+
         # render faces 
         for i in range(len(faces_to_render)):
             
-            deg+=deg_inc
+            if not paused: deg+=deg_inc
             first, second = faces_to_render[i]
 
             posx,posy,posz = vertices[first]
             posx_2, posy_2, posz_2 = vertices[second]
 
-            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg)
+            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg,deg_2)
             ren_x, ren_y, ren_z = render(fin_x, fin_y, fin_z)
             
-            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg)
+            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg,deg_2)
             ren_x2, ren_y2, ren_z2 = render(fin_x2, fin_y2, fin_z2)
 
             pygame.draw.line(screen, color, (ren_x, ren_y), (ren_x2, ren_y2), 1)
@@ -97,19 +115,21 @@ def main():
 
 
 
-def dostuff(x,y,z, deg):
+def dostuff(x,y,z, deg, deg_2):
 
     #along y axis
     fin_x = x*math.cos(deg) - z*math.sin(deg)
     fin_z = dist + x*math.sin(deg) + z*math.cos(deg) 
     fin_y = y
-    
-    #along z axis 
-    # fin2_x = fin_x * math.cos(deg) - fin_y * math.sin(deg)
-    # fin2_y = fin_x * math.sin(deg) + fin_y * math.cos(deg)
-    # fin2_z = fin_z
 
-    return (fin_x, fin_y, fin_z)
+
+    
+    #along x axis 
+    fin2_x = fin_x 
+    fin2_z = fin_y * math.sin(deg_2) + fin_z * math.cos(deg_2)
+    fin2_y = fin_y * math.cos(deg_2) - fin_z * math.sin(deg_2)
+
+    return (fin2_x, fin2_y, fin2_z)
 
 
 
