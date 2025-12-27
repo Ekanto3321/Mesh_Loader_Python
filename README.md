@@ -15,5 +15,17 @@ Controls:
   - Q/E to shift along Y-axis
   - W/S to shift along Z-axis
   - A/D to shift along X-axis 
-    
+   
+Axis Reference: 
+
+           Y
+           ^  / Z
+           | /      
+           |/
+    <-------------- > X 
+          /| 
+         / |
+        /  v
+
+
 ![demo](./demo.gif)
