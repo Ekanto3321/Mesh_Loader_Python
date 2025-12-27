@@ -8,14 +8,14 @@ from object import vertices, faces
 
 pygame.init()
 
-width = 600
-height = 600
+width = 800
+height = 800
 framerate = 60
 size = 1
 color = (200,200,50)
 bg = (0,0,0)
-dist = 2
-deg_inc = 0.00001
+dist = 1.75
+deg_inc = 0.000005
 # window stuff
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("3D")
