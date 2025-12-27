@@ -7,23 +7,39 @@ def fast_convert(filepath, output_file):
     print(f"Loading {filepath}...")
     mesh = trimesh.load(filepath, process=False)
     
-    print("Normalizing vertices...")
-    vertices = mesh.vertices / np.max(np.abs(mesh.vertices))
-    vertices_list = [tuple(float(c) for c in v) for v in vertices]
+    vertices_list = []
+    edges_list = []
     
-    print("Extracting clean edges...")
+    # ✅ UNIVERSAL: Handle both Mesh and Scene
+    if isinstance(mesh, trimesh.Scene):
+        print(f"Scene: {len(mesh.geometry)} objects")
+        for geom_name, geom in mesh.geometry.items():
+            if isinstance(geom, trimesh.Trimesh) and len(geom.vertices) > 0:
+                print(f"  Processing {geom_name} ({len(geom.vertices)} verts)")
+                process_mesh(geom, vertices_list, edges_list)
+    else:
+        print("Single mesh")
+        process_mesh(mesh, vertices_list, edges_list)
+    
+    print(f"✅ {len(vertices_list)} verts, {len(edges_list)} edges")
+    save_pygame_format(vertices_list, edges_list, output_file)
+
+def process_mesh(mesh, vertices_list, edges_list):
+    """Process single Trimesh"""
+    # Normalize vertices
+    vertices = mesh.vertices / np.max(np.abs(mesh.vertices))
+    vstart = len(vertices_list)
+    vertices_list.extend([tuple(float(c) for c in v) for v in vertices])
+    
+    # Extract edges
     edges_set = set()
     for face in mesh.faces:
-        # ✅ Convert ALL indices to int!
         v0, v1, v2 = int(face[0]), int(face[1]), int(face[2])
-        edges_set.add(tuple(sorted([v0, v1])))
-        edges_set.add(tuple(sorted([v1, v2])))
-        edges_set.add(tuple(sorted([v2, v0])))
+        edges_set.add(tuple(sorted([v0 + vstart, v1 + vstart])))
+        edges_set.add(tuple(sorted([v1 + vstart, v2 + vstart])))
+        edges_set.add(tuple(sorted([v2 + vstart, v0 + vstart])))
     
-    edges_list = list(edges_set)
-    
-    print(f"✅ {len(vertices_list)} verts, {len(edges_list)} edges - CLEAN!")
-    save_pygame_format(vertices_list, edges_list, output_file)
+    edges_list.extend(list(edges_set))
 
 def save_pygame_format(vertices, edges, output_file):
     with open(output_file, 'w') as f:
