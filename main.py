@@ -8,8 +8,8 @@ from object import vertices, faces
 
 pygame.init()
 
-width = 800
-height = 800
+width = 1000
+height = 1000
 framerate = 60
 size = 1
 color = (200,200,50,0.5)
@@ -56,33 +56,6 @@ def main():
         #     #pygame.draw.circle(screen, color, (ren_x, ren_y), size) 
         
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            deg -= 0.05
-        if keys[pygame.K_RIGHT]:
-            deg += 0.05
-        if keys[pygame.K_DOWN]:
-            deg_2 -= 0.05
-        if keys[pygame.K_UP]:
-            deg_2 += 0.05
-        if keys[pygame.K_w]:
-            z_offset -= 0.05
-        if keys[pygame.K_s]:
-            z_offset += 0.05
-        if keys[pygame.K_q]:
-            y_offset -= 0.05
-        if keys[pygame.K_e]:
-            y_offset += 0.05
-        if keys[pygame.K_a]:
-            x_offset -= 0.05
-        if keys[pygame.K_d]:
-            x_offset += 0.05
-        if keys[pygame.K_SPACE]:
-            if paused == False: 
-                paused = True
-            else: 
-                paused = False 
-
         # render faces 
         for i in range(len(faces_to_render)):
             
@@ -99,8 +72,37 @@ def main():
             ren_x2, ren_y2, ren_z2 = render(fin_x2, fin_y2, fin_z2)
 
             pygame.draw.line(screen, color, (ren_x, ren_y), (ren_x2, ren_y2), 1)
+        
 
-            
+        # Controls
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            deg -= 0.05
+        if keys[pygame.K_RIGHT]:
+            deg += 0.05
+        if keys[pygame.K_DOWN]:
+            deg_2 -= 0.05
+        if keys[pygame.K_UP]:
+            deg_2 += 0.05
+        if keys[pygame.K_s]:
+            z_offset -= 0.05
+        if keys[pygame.K_w]:
+            z_offset += 0.05
+        if keys[pygame.K_q]:
+            y_offset -= 0.05
+        if keys[pygame.K_e]:
+            y_offset += 0.05
+        if keys[pygame.K_a]:
+            x_offset -= 0.05
+        if keys[pygame.K_d]:
+            x_offset += 0.05
+        if keys[pygame.K_SPACE]:
+            if paused == False: 
+                paused = True
+            else: 
+                paused = False 
+
+
 
         pygame.display.flip()
         clock.tick(framerate)

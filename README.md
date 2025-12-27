@@ -10,8 +10,10 @@ To load your own mesh files:
     - ./main.py
 
 Controls: 
-  - Use the arrow keys to rotate 
-  - Space to Pause/Play
-  - W/S to shift along Y-axis
+  - Use the arrow keys to rotate manually  
+  - Space to Pause/Play rotation
+  - Q/E to shift along Y-axis
+  - W/S to shift along Z-axis
+  - A/D to shift along X-axis 
     
 ![demo](./demo.gif)
