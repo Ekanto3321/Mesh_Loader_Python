@@ -8,4 +8,6 @@ To load your own mesh files:
   
  - finally, just run main.py as 
     - ./main.py
+
+    
 ![demo](./demo.gif)
