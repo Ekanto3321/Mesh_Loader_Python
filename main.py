@@ -24,7 +24,9 @@ clock = pygame.time.Clock()
 def main():
     deg = 0.1
     deg_2 = 0
+    x_offset = 0
     y_offset = 0
+    z_offset = dist
     running = True
     
     paused = False
@@ -59,14 +61,22 @@ def main():
             deg -= 0.05
         if keys[pygame.K_RIGHT]:
             deg += 0.05
-        if keys[pygame.K_UP]:
-            deg_2 -= 0.05
         if keys[pygame.K_DOWN]:
+            deg_2 -= 0.05
+        if keys[pygame.K_UP]:
             deg_2 += 0.05
-        if keys[pygame.K_s]:
-            y_offset -= 0.05
         if keys[pygame.K_w]:
+            z_offset -= 0.05
+        if keys[pygame.K_s]:
+            z_offset += 0.05
+        if keys[pygame.K_q]:
+            y_offset -= 0.05
+        if keys[pygame.K_e]:
             y_offset += 0.05
+        if keys[pygame.K_a]:
+            x_offset -= 0.05
+        if keys[pygame.K_d]:
+            x_offset += 0.05
         if keys[pygame.K_SPACE]:
             if paused == False: 
                 paused = True
@@ -82,10 +92,10 @@ def main():
             posx,posy,posz = vertices[first]
             posx_2, posy_2, posz_2 = vertices[second]
 
-            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg,deg_2,y_offset)
+            fin_x, fin_y, fin_z = dostuff(posx,posy,posz,deg,deg_2,x_offset,y_offset,z_offset)
             ren_x, ren_y, ren_z = render(fin_x, fin_y, fin_z)
             
-            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg,deg_2, y_offset)
+            fin_x2, fin_y2, fin_z2 = dostuff(posx_2,posy_2,posz_2,deg,deg_2, x_offset, y_offset,z_offset)
             ren_x2, ren_y2, ren_z2 = render(fin_x2, fin_y2, fin_z2)
 
             pygame.draw.line(screen, color, (ren_x, ren_y), (ren_x2, ren_y2), 1)
@@ -119,7 +129,7 @@ def main():
 
 
 
-def dostuff(x,y,z, deg, deg_2, y_offset):
+def dostuff(x,y,z, deg, deg_2,x_offset, y_offset, z_offset):
 
     # #along y axis
     # fin_x = x*math.cos(deg) - z*math.sin(deg)
@@ -137,10 +147,10 @@ def dostuff(x,y,z, deg, deg_2, y_offset):
     fin2_y = fin_y
  
 
-    
-    fin3_x = fin2_x 
+    # adding offsets for camera control   
+    fin3_x = fin2_x + x_offset
     fin3_y = fin2_y + y_offset
-    fin3_z = fin2_z
+    fin3_z = fin2_z + z_offset 
 
 
     return (fin3_x, fin3_y, fin3_z)
